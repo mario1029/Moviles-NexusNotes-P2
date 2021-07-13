@@ -1,19 +1,14 @@
-CREATE TABLE "usuario" (
-  "correo" varchar PRIMARY KEY,
-  "nombre" varchar NOT NULL,
-  "contrasenia" varchar NOT NULL
-);
-
 CREATE TABLE "tarea" (
   "id_tarea" SERIAL PRIMARY KEY,
   "titulo" varchar NOT NULL,
   "contenido" text,
-  "fechaVencimiento" date,
-  "horaVencimiento" time,
-  "fechaNotificacion" date,
-  "horaNotificacion" time,
+  "fecha_vencimiento" date,
+  "hora_vencimiento" time,
+  "fecha_notificacion" date,
+  "hora_notificacion" time,
   "pinear" boolean DEFAULT false,
   "completada" boolean DEFAULT false,
+  "fecha_completado" date,
   "posicion" integer,
   "id_tipo" integer,
   "correo" varchar
@@ -53,3 +48,12 @@ ALTER TABLE "archivo" ADD FOREIGN KEY ("id_tarea") REFERENCES "tarea" ("id_tarea
 ALTER TABLE "tarea_tag" ADD FOREIGN KEY ("id_tag") REFERENCES "tag" ("id_tag") on delete cascade on update cascade;
 
 ALTER TABLE "tarea_tag" ADD FOREIGN KEY ("id_tarea") REFERENCES "tarea" ("id_tarea") on delete cascade on update cascade;
+
+-- INSERTAR ESTO PARA PODER PROBARLO BIEN
+
+insert into tag (nombre, descripcion) values ('universidad', 'tag que hace referencias a notas para la universidad');
+insert into tag (nombre, descripcion) values ('entretenimiento', 'tag que hace referencias a notas acerca de entretenimiento');
+
+insert into tipo (nombre, descripcion) values ('clasico','nota de texto tipica');
+
+-- INSERTAR UN USUARIO, SI NO MUCHAS COSAS NO FUNCIONARAN XD

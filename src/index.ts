@@ -1,6 +1,6 @@
 import './config/alias'
 import express from 'express';
-import { cors } from '@middlewares/middlewares';
+import cors from 'cors';
 import routes from './routes';
 import session from 'express-session';
 import passport from 'passport';
@@ -19,7 +19,7 @@ app.use(
   })
 );
 
-app.use(cors);
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('hi, estas en el inicio');

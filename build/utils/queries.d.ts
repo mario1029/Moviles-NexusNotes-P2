@@ -8,4 +8,19 @@ export declare const queries: {
     DELETE_USER_BY_ALIAS: string;
     DELETE_USER_BY_EMAIL: string;
 };
+export declare const queriesTask: {
+    CREATE_TASK: string;
+    GET_TASK: string;
+    GET_TASK_DETAIL: string;
+    GET_CANT_TASK_BY_TYPE: string;
+    GET_CANT_TASK_BY_TYPE_COMPLETE: string;
+    GET_TASK_BY_TITTLE: string;
+    UPDATE_TASK: string;
+    SET_PINEAR: string;
+    SET_COMPLETADA: string;
+    ADD_TAGS: string;
+    GET_TAGS: string;
+    DELETE_TASK: string;
+    DELETE_TAGS: string;
+};
 //# sourceMappingURL=queries.d.ts.map

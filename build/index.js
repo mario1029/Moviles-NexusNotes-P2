@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./config/alias");
 const express_1 = __importDefault(require("express"));
-const middlewares_1 = require("@middlewares/middlewares");
+const cors_1 = __importDefault(require("cors"));
 const routes_1 = __importDefault(require("./routes"));
 const express_session_1 = __importDefault(require("express-session"));
 const passport_1 = __importDefault(require("passport"));
@@ -19,7 +19,7 @@ app.use(express_session_1.default({
     resave: false,
     saveUninitialized: false,
 }));
-app.use(middlewares_1.cors);
+app.use(cors_1.default());
 app.get('/', (req, res) => {
     res.send('hi, estas en el inicio');
 });
