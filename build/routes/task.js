@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const task_1 = require("@helpers/task");
+const fields_1 = require("@validations/fields");
 const router = express_1.Router();
-router.post('/news/:correo', async (req, res) => {
+router.post('/news/:correo', fields_1.taskValidation, fields_1.checkResult, async (req, res) => {
     try {
         console.log(req.body, req.params.correo);
         const tarea = await task_1.insertTask({
@@ -62,7 +63,7 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ status: 500, error: e, message: 'Error al Detalar la tarea' });
     }
 });
-router.put('/:id', async (req, res) => {
+router.put('/:id', fields_1.taskValidation, fields_1.checkResult, async (req, res) => {
     try {
         console.log(req.body, req.params.id);
         const tarea = await task_1.updateTask({

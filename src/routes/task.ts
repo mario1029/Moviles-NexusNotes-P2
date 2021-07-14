@@ -2,10 +2,11 @@ import { Router } from 'express';
 import { isAuth } from '@validations/auth';
 import {addTags, deleteTags, deleteTask, getTask, getTaskDetails, insertTask, searchTask, setCompletada, setPinear, updateTask} from '@helpers/task';
 import { tarea } from '@interfaces/tarea';
+import { taskValidation, checkResult } from '@validations/fields';
 
 const router = Router();
 
-router.post('/news/:correo', async(req, res)=>{
+router.post('/news/:correo', taskValidation, checkResult, async(req, res)=>{
     try {
         console.log(req.body,req.params.correo)
         const tarea= await insertTask({
@@ -65,7 +66,7 @@ router.get('/:id', async(req, res)=>{
     }
 })
 
-router.put('/:id', async(req, res)=>{
+router.put('/:id',taskValidation, checkResult, async(req, res)=>{
     try {
         console.log(req.body,req.params.id)
         const tarea= await updateTask({

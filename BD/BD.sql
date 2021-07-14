@@ -49,6 +49,18 @@ ALTER TABLE "tarea_tag" ADD FOREIGN KEY ("id_tag") REFERENCES "tag" ("id_tag") o
 
 ALTER TABLE "tarea_tag" ADD FOREIGN KEY ("id_tarea") REFERENCES "tarea" ("id_tarea") on delete cascade on update cascade;
 
+--Triggers
+
+
+CREATE OR REPLACE FUNCTION posicion() RETURNS TRIGGER AS $posicion$
+   BEGIN
+      UPDATE tarea SET posicion=(SELECT MAX(posicion) + 1 FROM tarea WHERE correo=new.correo) WHERE id_tarea=new.id_tarea;
+      RETURN NEW;
+   END;
+$posicion$ LANGUAGE plpgsql;
+
+CREATE TRIGGER insert_posicion AFTER INSERT ON tarea FOR EACH ROW EXECUTE PROCEDURE posicion();
+
 -- INSERTAR ESTO PARA PODER PROBARLO BIEN
 
 insert into tag (nombre, descripcion) values ('universidad', 'tag que hace referencias a notas para la universidad');

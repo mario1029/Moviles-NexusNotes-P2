@@ -12,8 +12,6 @@ export declare const queriesTask: {
     CREATE_TASK: string;
     GET_TASK: string;
     GET_TASK_DETAIL: string;
-    GET_CANT_TASK_BY_TYPE: string;
-    GET_CANT_TASK_BY_TYPE_COMPLETE: string;
     GET_TASK_BY_TITTLE: string;
     UPDATE_TASK: string;
     SET_PINEAR: string;
@@ -22,5 +20,15 @@ export declare const queriesTask: {
     GET_TAGS: string;
     DELETE_TASK: string;
     DELETE_TAGS: string;
+};
+export declare const queriesStatistics: {
+    GET_CANT_TASK_BY_TYPE: string;
+    GET_CANT_TASK_BY_TYPE_COMPLETE_DAILY: string;
+    GET_CANT_TASK_BY_TYPE_COMPLETE_MONTH: string;
+    GET_CANT_TASK_COMPLETE_DAILY: string;
+    GET_CANT_TASK_COMPLETE_MONTH: string;
+    GET_CANT_TASK_COMPLETE: string;
+    GET_CANT_TASK_BY_TYPE_COMPLETE: string;
+    GET_CANT_TASK: string;
 };
 //# sourceMappingURL=queries.d.ts.map

@@ -6,11 +6,11 @@ const pool = Pool.getInstance();
 
 export const insertTask = async({tarea, correo} : {tarea:tareaDetallada, correo:string}):  Promise<tareaDetallada>=>{
     const client = await pool.connect();
-    const {titulo,contenido,fechaVencimiento,horaVencimiento,fechaNotificacion,horaNotificacion,posicion,tipo}=tarea;
+    const {titulo,contenido,fechaVencimiento,horaVencimiento,fechaNotificacion,horaNotificacion,tipo}=tarea;
     console.log(tarea, correo)
     try {
         await client.query('BEGIN');
-        const response= (await client.query(queriesTask.CREATE_TASK, [titulo,contenido,fechaVencimiento,horaVencimiento,fechaNotificacion,horaNotificacion,posicion,tipo,correo])).rows[0];
+        const response= (await client.query(queriesTask.CREATE_TASK, [titulo,contenido,fechaVencimiento,horaVencimiento,fechaNotificacion,horaNotificacion,tipo,correo])).rows[0];
         const tareas:tareaDetallada={
             titulo:response.titulo,
             contenido:response.contenido,

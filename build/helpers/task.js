@@ -9,11 +9,11 @@ const queries_1 = require("@utils/queries");
 const pool = pool_1.default.getInstance();
 const insertTask = async ({ tarea, correo }) => {
     const client = await pool.connect();
-    const { titulo, contenido, fechaVencimiento, horaVencimiento, fechaNotificacion, horaNotificacion, posicion, tipo } = tarea;
+    const { titulo, contenido, fechaVencimiento, horaVencimiento, fechaNotificacion, horaNotificacion, tipo } = tarea;
     console.log(tarea, correo);
     try {
         await client.query('BEGIN');
-        const response = (await client.query(queries_1.queriesTask.CREATE_TASK, [titulo, contenido, fechaVencimiento, horaVencimiento, fechaNotificacion, horaNotificacion, posicion, tipo, correo])).rows[0];
+        const response = (await client.query(queries_1.queriesTask.CREATE_TASK, [titulo, contenido, fechaVencimiento, horaVencimiento, fechaNotificacion, horaNotificacion, tipo, correo])).rows[0];
         const tareas = {
             titulo: response.titulo,
             contenido: response.contenido,

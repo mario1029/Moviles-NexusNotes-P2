@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkResult = exports.loginFieldsValidation = exports.updateUserFieldsValidation = exports.signUpFieldsValidation = void 0;
+exports.checkResult = exports.taskValidation = exports.loginFieldsValidation = exports.updateUserFieldsValidation = exports.signUpFieldsValidation = void 0;
 const express_validator_1 = require("express-validator");
 const express_validator_2 = require("express-validator");
 exports.signUpFieldsValidation = [
@@ -17,6 +17,15 @@ exports.updateUserFieldsValidation = [
 exports.loginFieldsValidation = [
     express_validator_2.check('correo').notEmpty({ ignore_whitespace: true }).withMessage('Falta un correo').isEmail().withMessage('Correo invalido'),
     express_validator_2.check('contrasenia').notEmpty({ ignore_whitespace: true }).withMessage('Falta una contraseña').isLength({ min: 4, max: 20 }).withMessage('Contrasenia invalida, debe tener una longitud de 4 a 20 caracteres')
+];
+exports.taskValidation = [
+    express_validator_2.check('titulo').notEmpty({ ignore_whitespace: true }).withMessage('Falta un titulo').isString().withMessage('titulo invalido'),
+    express_validator_2.check('contenido').notEmpty({ ignore_whitespace: true }).withMessage('Falta el contenido').isString().isLength({ min: 10 }).withMessage('contenido debe ser mayor a 10 caracteres'),
+    express_validator_2.check('tipo').notEmpty({ ignore_whitespace: true }).withMessage('Falta un tipo').isNumeric().withMessage('tipo invalido'),
+    express_validator_2.check('fechaVencimiento').optional().isDate().withMessage('fechaVencimiento invalido'),
+    express_validator_2.check('horaVencimiento').optional().isString().withMessage('horaVencimiento invalido'),
+    express_validator_2.check('fechaNotificacion').optional().isDate().withMessage('fechaNotificacion invalido'),
+    express_validator_2.check('horaNotificacion').optional().isString().withMessage('horaNotificacion invalido'),
 ];
 const checkResult = (req, res, next) => {
     const errors = express_validator_1.validationResult(req);
