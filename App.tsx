@@ -2,47 +2,24 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import home from './screens/home';
+import addNote from './screens/addNote';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack'
+
+const Stack = createStackNavigator();
+
 
 export default function App() {
 
-  const [image, setImage] = React.useState(''); 
-
-  const pickImage = async () => {
-    let result = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if(result.granted === false){
-      alert('Permisos de Camara requeridos');
-      return;
-    }
-
-    const pickerResult = await ImagePicker.launchImageLibraryAsync();
-    
-    if(pickerResult.cancelled === true){
-      return;
-    }
-
-    if (!pickerResult.cancelled) {
-      setImage(pickerResult.uri);
-      console.log('Hola',image);
-    }
-  };
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Bienvenidos a</Text>
-      <Text style={styles.text}>Nexus-Notes</Text>
-        <Image
-          source={require('./assets/images/logo.png')}
-          style={styles.logo}
-        />
-        <TouchableOpacity 
-        onPress={pickImage}
-        style={styles.button}
-        >
-          <Text style={styles.buttonText}>Dar imagen</Text>
-        </TouchableOpacity>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="home" component={home}/>
+        <Stack.Screen name="addNote" component={addNote}/>
+      </Stack.Navigator>
       <StatusBar style="auto" />
-    </View>
+    </NavigationContainer>
   );
 }
 
@@ -60,6 +37,7 @@ const styles = StyleSheet.create({
   logo:{
     height:200,
     width:200,
+    resizeMode: 'contain'
   },
   button:{
     backgroundColor:'#000',
