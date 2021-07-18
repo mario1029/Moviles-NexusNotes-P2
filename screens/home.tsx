@@ -1,13 +1,25 @@
 import React, { useEffect } from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, FlatList} from 'react-native';
 import { getNotes } from '../api';
+import NoteList from '../components/NotesList';
+import Layout from "../components/layout";
+
+  const Item = ( {title}:any ) => (
+    <View>
+      <Text>{title}</Text>
+    </View>
+  );
+  
+  const renderItem = ({item}:any ) => (
+    <Item title={item.titulo} />
+  );
+
 
 const home = ()=>{
-    let data;
+    const [data, setData] = React.useState([{titulo:'',descripcion:''}]); 
     const loadNotes = async ()=>{
         const notes = await getNotes();
-        console.log(notes)
-        data = notes;
+        setData(notes);
     }
 
     useEffect(()=>{
@@ -15,11 +27,13 @@ const home = ()=>{
     }, [])
 
     return (
-        <View>
-            <Text>Estas en el home</Text>
-            <Text>a</Text>
-        </View>
+        <Layout component={
+            <NoteList notes={data} />
+        }>
+             
+        </Layout>
     )
 }
+
 
 export default home;

@@ -23,29 +23,3 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#AD20A5',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text:{
-    color: 'white',
-    fontSize: 30
-  },
-  logo:{
-    height:200,
-    width:200,
-    resizeMode: 'contain'
-  },
-  button:{
-    backgroundColor:'#000',
-    padding: 7,
-    marginTop: 10,
-  },
-  buttonText:{
-    color: 'white',
-    fontSize: 20
-  }
-});
