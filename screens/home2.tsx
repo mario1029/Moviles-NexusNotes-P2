@@ -9,9 +9,9 @@ import { floor } from 'react-native-reanimated';
 
 const home = ({navigation}:any)=>{
 
-  const [pineadas, setPineadas] = React.useState([{titulo:'',fechaVencimiento:'', posicion:0, pinear:false, completada:false}]); 
-  const [nomales, setNormales] = React.useState([{titulo:'',fechaVencimiento:'', posicion:0, pinear:false, completada:false}]); 
-  const [completadas, setCompletadas] = React.useState([{titulo:'',fechaVencimiento:'', posicion:0, pinear:false, completada:false}]); 
+  const [pineadas, setPineadas] = React.useState([{titulo:'',fechaVencimiento:'', pinear:false, completada:false}]); 
+  const [nomales, setNormales] = React.useState([{titulo:'',fechaVencimiento:'', pinear:false, completada:false}]); 
+  const [completadas, setCompletadas] = React.useState([{titulo:'',fechaVencimiento:'', pinear:false, completada:false}]); 
   const [refresh, setRefresh]= React.useState(false);
  // const [loading, setLoading]= React.useState(true);
 

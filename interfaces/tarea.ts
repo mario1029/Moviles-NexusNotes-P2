@@ -2,19 +2,16 @@ export interface tarea{
     id?:number,
     titulo:string,
     fechaVencimiento: string,
-    posicion:number,
+    posicion?:number,
     pinear:boolean,
     completada:boolean
 }
 
 export interface tareaDetallada extends tarea{
-    titulo:string,
     contenido: string,
-    fechaVencimiento: string,
-    horaVencimiento: string,
-    fechaNotificacion:string,
-    horaNotificacion:string,
-    posicion:number,
+    horaVencimiento?: string,
+    fechaNotificacion?:string,
+    horaNotificacion?:string,
     tipo:number,
-    tags:string[]
+    tags?:string[]
 }

@@ -12,6 +12,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack'
 import { Feather } from '@expo/vector-icons'; 
 import HomeStack from './router/homeStsck';
+import { logout } from './comm/user.comm';
 
 
 const Stack = createStackNavigator();

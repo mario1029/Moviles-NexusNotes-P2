@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
+import { register } from '../comm/user.comm';
 import {Colors, styles} from '../components/styles'
 
 const Register = ()=>{
@@ -9,7 +10,19 @@ const Register = ()=>{
 
     const submit = async ()=>{
         console.log('Se envia el registro con',usuario, pass, email)
-        //aqui va el fetch a la api
+        const result= await register({
+            nombre:usuario,
+            correo:email,
+            contrasenia:pass
+        })
+        if(result.status==200)
+            Alert.alert("Notificacion",result.message)
+        else if(result.status==400)
+            Alert.alert("Error de credenciales", result.error.msg)
+        else if(result.status==500)
+            Alert.alert(result.message, "Posiblemente el correo que esta intentando usar ya se encuentre siendo utilizado")
+
+
     }
 
     return (

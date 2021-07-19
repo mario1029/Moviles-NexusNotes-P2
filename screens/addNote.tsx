@@ -1,8 +1,11 @@
 import React from 'react';
-import {View, Text, TextInput, TouchableOpacity, Image, ScrollView, Button, Platform} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Image, ScrollView, Alert, Platform} from 'react-native';
 import {Colors, styles} from '../components/styles';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { createTask } from '../comm/task.comm';
+import { tareaDetallada } from '../interfaces/tarea';
+import { createIconSetFromFontello } from '@expo/vector-icons';
 
 const addNote = ()=>{
     const [title, setTitle] = React.useState("");
@@ -49,11 +52,24 @@ const addNote = ()=>{
       };
 
     const submit = async ()=>{
-        console.log('Se envia la nota:', title)
-        console.log('Content:\n',content)
-        console.log('Image:',image)
-        console.log('Date:',date)
-
+        console.log(date.toDateString())
+        const tarea:tareaDetallada={
+            titulo:title,
+            contenido:content,
+            tipo:1,
+            fechaVencimiento:`${date.getFullYear()}-${(date.getMonth() < 10 ? '0' : '').concat(date.getMonth().toString())}-${(date.getDay() < 10 ? '0' : '').concat(date.getDay().toString())}`,
+            pinear:false,
+            completada:false
+        }
+        console.log(tarea)
+        const result=await createTask(tarea)
+        if(result.status==200)
+            Alert.alert("Tarea creada", "La tarea ha sido creada exitosamente")
+        else if(result.status==400)
+            Alert.alert("Error en los datos enviados",result.error.msg)
+        else
+            Alert.alert("Error interno","Estamos presentado problemas actualmente, trataremos de solucionarlo rapido")
+        console.log('Se envia la nota:', result)
         //aqui va el fetch a la api
     }
 

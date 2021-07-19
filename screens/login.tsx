@@ -1,6 +1,8 @@
 import React from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
+import { login, logout } from '../comm/user.comm';
 import {Colors, styles} from '../components/styles'
+import { UsuarioCompleto } from '../interfaces/usuario';
 
 const Login = ()=>{
     const [pass, setPass] = React.useState("");
@@ -8,7 +10,19 @@ const Login = ()=>{
 
     const submit = async ()=>{
         console.log('Se envia el login con', pass, email)
-        //aqui va el fetch a la api
+        const usuario:UsuarioCompleto={
+            correo:email,
+            contrasenia:pass
+        }
+        const result= await login(usuario)            
+        if(result.status==304)
+            Alert.alert("Notificacion", result.response)
+        else if(result.status==400)
+            Alert.alert("Error de credenciales", result.error.msg)
+        else
+            Alert.alert(result.status)
+        console.log(result)
+
     }
 
     return (
