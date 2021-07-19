@@ -10,3 +10,51 @@ export const getListTask= async()=>{
     console.log(data);
     return tareas;
 }
+
+export const completeTask= async(id:number)=>{
+    const response= await fetch(`https://registroweb2.herokuapp.com/task/completar/${id}`,
+    {
+        method: 'PUT'
+    });
+    const data= await response.json();
+    const tareas:tarea=data.tarea;
+    console.log(data);
+    return tareas;
+}
+
+export const deleteTask= async(id:number)=>{
+    const response= await fetch(`https://registroweb2.herokuapp.com/task/${id}`,
+    {
+        method: 'DELETE'
+    });
+    const data= await response.json();
+    const tareas:tarea=data.tarea;
+    console.log(data);
+    return tareas;
+}
+
+export const pinnearTask= async(id:number)=>{
+    const response= await fetch(`https://registroweb2.herokuapp.com/task/pinear/${id}`,
+    {
+        method: 'PUT'
+    });
+    const data= await response.json();
+    const tareas:tarea=data.tarea;
+    console.log(data);
+    return tareas;
+}
+
+export const searchtTask= async(titulo:string)=>{
+    const response= await fetch(`https://registroweb2.herokuapp.com/task/search/${titulo}`,
+    {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ correo: 'jose'})
+    });
+    const data= await response.json();
+    const tareas:tarea[]=data.tareas;
+    console.log(data);
+    return tareas;
+}

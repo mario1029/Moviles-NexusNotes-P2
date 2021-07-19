@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
-import home from './screens/home';
+import * as ImagePicker from 'expo-image-picker';
+import home2 from './screens/home2';
 import addNote from './screens/addNote';
 import viewNotes from './screens/viewNotes';
 import Register from './screens/register';
@@ -26,7 +27,7 @@ export default function App() {
       <Drawer.Navigator initialRouteName="home">
           <Drawer.Screen name="Home" component={HomeStack}/>
           <Drawer.Screen name="Addnote" component={addNote}  />
-          <Drawer.Screen name="Notes" component={viewNotes}  />
+          <Drawer.Screen name="Notes" component={HomeStack}  />
           <Drawer.Screen name="Register" component={Register}  />
           <Drawer.Screen name="Login" component={Login}  />
         </Drawer.Navigator>

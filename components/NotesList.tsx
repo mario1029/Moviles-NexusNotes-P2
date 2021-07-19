@@ -1,36 +1,46 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import {StyleSheet, View, Text, FlatList, SectionList, RefreshControl} from 'react-native';
-import { tarea } from '../interfaces/tarea';
+import {StyleSheet, View, Text, Pressable, SectionList,TextInput } from 'react-native';
+import { CheckBox, FAB } from 'react-native-elements'
 
-const wait = (timeout:number) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
+const noteList = ({pineadas, completadas, normales, refresh, onRefresh, checked, onPressLong, onPress, search}:any)=>{
 
-const App = () => {
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [text, setText]= React.useState('');
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
-}
+  const Item = ( {title, select, id, onRefresh}:any ) => (
+    <Pressable
+    onPress={()=>{console.log(title)}}
+    onLongPress={()=>{onPressLong(id)}}
+    >
+       <View style={styles.listItem}>
+        <Text style={styles.text}>{title}</Text>
+        <CheckBox checked={select} 
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o' 
+          onPress={()=>{
+            checked(id)
+          }}
+          />
+      </View>  
+    </Pressable>
+    );
+  
+    const renderItem = ({item}:any ) => (
+      <Item title={item.titulo} select={item.completada} id={item.id} />    
+    );
 
-const Item = ( {title}:any ) => (
-    <View style={styles.listItem}>
-      <Text style={styles.text}>{title}</Text>
-    </View>
-  );
-
-  const renderItem = ({item}:any ) => (
-    <Item title={item.titulo} />    
-  );
-
-
-
-const noteList = ({pineadas, completadas, normales, refresh, onRefresh}:any)=>{
-    
     return (
-        <SectionList 
+      <View>
+        <View>
+          <TextInput
+          style={styles.input}
+          onChangeText={setText}
+          value={text}
+          placeholder={"Buscar tarea/nota"}
+          onSubmitEditing={ ()=>search(text)}
+          />
+        </View>
+         <SectionList 
         style={styles.list}
         sections={[
           {title: 'Pineadas', data: pineadas},
@@ -45,6 +55,10 @@ const noteList = ({pineadas, completadas, normales, refresh, onRefresh}:any)=>{
         refreshing={refresh}
         onRefresh={onRefresh}
          />
+         {/* <View style={styles.containerB} >
+            <FAB icon={<MaterialIcons name={"add-circle"} style={styles.icon} size={30}/>} size={"small"}/>
+         </View> */}
+    </View>
     )
 }
 
@@ -67,12 +81,19 @@ const styles = StyleSheet.create({
   },
   listItem: {
     flex: 1,
+    flexDirection:'row',
     marginRight: 20,
     marginLeft: 20,
     marginTop: 10,
     backgroundColor: '#9575cd',
     padding: 10,
     borderRadius: 5,
+    alignItems:'center',
+    justifyContent:'space-between',
+  },
+  check:{
+    flex: 2,
+    justifyContent:'flex-start'
   },
   listHeader: {
     flex: 1,
@@ -83,6 +104,22 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    backgroundColor: 'white',
+  },
+  containerB:{
+    flexDirection:"row",
+    alignItems:'center',
+    justifyContent:'flex-end',
+    marginVertical: 20,
+    left:30
+  },
+  icon: {
+    position: 'relative',
+  }
 });
 
 export default noteList;

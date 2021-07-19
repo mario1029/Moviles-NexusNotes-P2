@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import home from '../screens/home';
+import home from '../screens/home2';
 import Header from '../components/header';
 import addNote from '../screens/addNote';
 import viewNotes from '../screens/viewNotes';
@@ -16,7 +16,7 @@ const Stack = createStackNavigator();
 const HomeStack = ({navigation}:any)=>{
     return(
         <Stack.Navigator initialRouteName="home">
-          <Stack.Screen name="home" component={viewNotes}  
+          <Stack.Screen name="home" component={home}  
             options={{
                 headerTitle: () => <Header title='Nexus-Notes' navigation={navigation} />
           }}/>

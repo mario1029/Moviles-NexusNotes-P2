@@ -1,4 +1,5 @@
 export interface tarea{
+    id?:number,
     titulo:string,
     fechaVencimiento: string,
     posicion:number,
