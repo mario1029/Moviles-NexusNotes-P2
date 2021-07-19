@@ -12,8 +12,7 @@ const Layout = ({component}:any)=>{
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#AD20A5',
-      alignItems: 'center',
+      backgroundColor: '#AD20A5',  
       justifyContent: 'center',
     },
   });

@@ -3,10 +3,20 @@ import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import { login, logout } from '../comm/user.comm';
 import {Colors, styles} from '../components/styles'
 import { UsuarioCompleto } from '../interfaces/usuario';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = ()=>{
+const Login = ({navigation}:any)=>{
     const [pass, setPass] = React.useState("");
     const [email, setEmail] = React.useState("");
+
+    const storeData = async (value:UsuarioCompleto) => {
+        try {
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem('login', jsonValue)
+          } catch (e) {
+                console.log(e)
+          }
+    }
 
     const submit = async ()=>{
         console.log('Se envia el login con', pass, email)
@@ -15,14 +25,17 @@ const Login = ()=>{
             contrasenia:pass
         }
         const result= await login(usuario)            
-        if(result.status==304)
-            Alert.alert("Notificacion", result.response)
-        else if(result.status==400)
+        if(result.status==304){
+            Alert.alert("Notificacion", result.response);
+        }else if(result.status==400){
             Alert.alert("Error de credenciales", result.error.msg)
-        else
+        }else{
+            await storeData(usuario);
             Alert.alert(result.status)
-        console.log(result)
+            navigation.navigate('Notes');
+            console.log(result)
 
+        }
     }
 
     return (

@@ -3,7 +3,7 @@ import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import { register } from '../comm/user.comm';
 import {Colors, styles} from '../components/styles'
 
-const Register = ()=>{
+const Register = ({navigation}:any)=>{
     const [usuario, setUsuario] = React.useState("");
     const [pass, setPass] = React.useState("");
     const [email, setEmail] = React.useState("");
@@ -15,13 +15,14 @@ const Register = ()=>{
             correo:email,
             contrasenia:pass
         })
-        if(result.status==200)
+        if(result.status==200){
             Alert.alert("Notificacion",result.message)
-        else if(result.status==400)
+            navigation.navigate('Login');
+        }else if(result.status==400){
             Alert.alert("Error de credenciales", result.error.msg)
-        else if(result.status==500)
+        }else if(result.status==500){
             Alert.alert(result.message, "Posiblemente el correo que esta intentando usar ya se encuentre siendo utilizado")
-
+        }
 
     }
 

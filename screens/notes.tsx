@@ -1,23 +1,33 @@
 import React, { useEffect } from 'react';
-import {StyleSheet, View, Text, FlatList,Alert} from 'react-native';
+import {StyleSheet, View, Text, FlatList,Alert, TouchableOpacity} from 'react-native';
 import { getNotes } from '../api';
 import NoteList from '../components/NotesList';
 import Layout from "../components/layout";
 import {completeTask, getListTask, deleteTask, pinnearTask, searchtTask} from "../comm/task.comm";
 import {tarea} from "../interfaces/tarea";
 import { floor } from 'react-native-reanimated';
+import { styles } from '../components/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UsuarioCompleto } from '../interfaces/usuario';
 
 const home = ({navigation}:any)=>{
 
   const [pineadas, setPineadas] = React.useState([{titulo:'',fechaVencimiento:'', pinear:false, completada:false}]); 
   const [nomales, setNormales] = React.useState([{titulo:'',fechaVencimiento:'', pinear:false, completada:false}]); 
-  const [completadas, setCompletadas] = React.useState([{titulo:'',fechaVencimiento:'', pinear:false, completada:false}]); 
+  const [completadas, setCompletadas] = React.useState([{titulo:'',fechaVencimiento:'', pinear:false, completada:false}]);
   const [refresh, setRefresh]= React.useState(false);
  // const [loading, setLoading]= React.useState(true);
 
+  const [data, dataSet] = React.useState<any>(null)
+
+  const addNote = ()=>{
+    //Se redirecciona a addNote
+    navigation.navigate('Addnote', {})
+  }
+
   const loadNotes = async ()=>{
       const notes:tarea[] = await getListTask();
-      console.log(notes)
+      
       setPineadas(notes.filter((rows)=>{
         return rows.pinear==true
       }));
@@ -30,7 +40,7 @@ const home = ({navigation}:any)=>{
 
       setRefresh(false);
    //   setLoading(false);
-      console.log(pineadas,nomales,completadas)
+      
   }
 
   const filterNotes = async (filter:string)=>{
@@ -47,7 +57,7 @@ const home = ({navigation}:any)=>{
 
     setRefresh(false);
  //   setLoading(false);
-    console.log(pineadas,nomales,completadas)
+    
 }
 
   const search=(titulo:string)=>{
@@ -62,9 +72,23 @@ const home = ({navigation}:any)=>{
    }
 
     useEffect(()=>{
-        loadNotes()
+        loadNotes();
+        const getData = async () => {
+          try {
+            const jsonValue = await AsyncStorage.getItem('login')
+            dataSet(jsonValue != null ? JSON.parse(jsonValue) : null);
+          } catch(e) {
+            // error reading value
+          }
+        }
+        getData();        
     }, [])
     
+    console.log("data:!!!!!!!",data.correo);
+    if(!(data!== null )){
+      Alert.alert("No se loggeado");
+      navigation.navigate('Login')
+    }
     // if(loading){
     //   return <Text>Cargando...</Text>
     // }
@@ -102,12 +126,20 @@ const home = ({navigation}:any)=>{
         ]
       );}
     return (
+      <View style={styles.containerGeneral}>
+        <View style={styles.containerTitle}>
+                <Text style={styles.title}>Notes</Text>
+        </View>
+        <View style={styles.conteinerHigh}>
+                        <TouchableOpacity onPress={addNote} style={styles.button}>
+                                <Text style={styles.buttonText}>Create Note</Text>
+                        </TouchableOpacity>
+                        </View>
         <Layout component={
-            <NoteList  pineadas={pineadas} completadas={completadas} normales={nomales}  refresh={refresh} onRefresh={onRefresh} checked={checked} onPressLong={onLongPress} search={search}/>
-        }>
-             
-        </Layout>
-        
+            <NoteList  pineadas={pineadas} completadas={completadas} normales={nomales}  refresh={refresh} onRefresh={onRefresh} checked={checked} onPressLong={onLongPress} search={search} navigation={navigation}/>
+        }>       
+        </Layout>      
+      </View>
     )
 }
 

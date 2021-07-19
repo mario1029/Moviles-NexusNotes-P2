@@ -1,67 +1,30 @@
-import React, { useEffect } from 'react';
-import {StyleSheet, View, Text, FlatList} from 'react-native';
-import { getNotes } from '../api';
-import NoteList from '../components/NotesList';
-import Layout from "../components/layout";
-import {getListTask} from "../comm/task.comm";
-import {tarea} from "../interfaces/tarea";
-import { floor } from 'react-native-reanimated';
+import React from 'react';
+import {View, Text, Image
+    , TextInput, TouchableOpacity} from 'react-native';
+import {Colors, styles} from '../components/styles'
+import { logout } from '../comm/user.comm';
 
-  const Item = ( {title}:any ) => (
-    <View>
-      <Text>{title}</Text>
-    </View>
-  );
-  
-  const renderItem = ({item}:any ) => (
-    <Item title={item.titulo} />
-  );
-
-
-const home = ()=>{
-    const [pineadas, setPineadas] = React.useState([{titulo:'',fechaVencimiento:'', posicion:0, pinear:false, completada:false}]); 
-    const [nomales, setNormales] = React.useState([{titulo:'',fechaVencimiento:'', posicion:0, pinear:false, completada:false}]); 
-    const [completadas, setCompletadas] = React.useState([{titulo:'',fechaVencimiento:'', posicion:0, pinear:false, completada:false}]); 
-    const [refresh, setRefresh]= React.useState(false);
-   // const [loading, setLoading]= React.useState(true);
-
-    const loadNotes = async ()=>{
-        const notes:tarea[] = await getListTask();
-        setPineadas(notes.filter((rows)=>{
-          return rows.pinear==true
-        }));
-        setCompletadas(notes.filter((rows)=>{
-          return rows.completada==true
-        }));
-        setNormales(notes.filter((rows)=>{
-          return rows.completada==false && rows.pinear==false
-        }))
-
-        setRefresh(false);
-     //   setLoading(false);
-        console.log(pineadas,nomales,completadas)
-    }
-
-    useEffect(()=>{
-        loadNotes()
-    }, [])
-
-    const onRefresh= ()=>{
-     // setLoading(true)
-      setRefresh(true);
-      loadNotes(); 
-    }
-
-    // if(loading){
-    //   return <Text>Cargando...</Text>
-    // }
+const Home = ()=>{
 
     return (
-        <Layout component={
-            <NoteList  pineadas={pineadas} completadas={completadas} normales={nomales}  refresh={refresh} onRefresh={onRefresh} />
-        }>            
-        </Layout>
-    )
+        <View style={styles.containerCenter}>
+            <View style={styles.containerTitle}>
+                <Text style={styles.title}>Welcome to Nexus-Notes</Text>
+            </View>
+            <Image
+                source={require('../assets/images/logo.png')}
+                style={styles.logo}
+            />
+            <View style={styles.conteinerTop}>
+                    <TouchableOpacity 
+                        onPress={logout}
+                        style={styles.button}
+                        >
+                        <Text style={styles.buttonText}>Logout</Text>
+                    </TouchableOpacity>
+                </View>
+        </View>
+         )
 }
 
-export default home;
+export default Home;

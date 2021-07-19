@@ -1,19 +1,21 @@
-import React from 'react';
-import {View, Text, TextInput, TouchableOpacity, Image, ScrollView, Alert, Platform} from 'react-native';
-import {styles} from '../components/styles';
+import React, { useEffect } from 'react';
+import {View, Text, TextInput, TouchableOpacity, Image, ScrollView, Button, Platform} from 'react-native';
+import {Colors, styles} from '../components/styles';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { createTask } from '../comm/task.comm';
-import { tareaDetallada } from '../interfaces/tarea';
-import { createIconSetFromFontello } from '@expo/vector-icons';
 
-const addNote = ({navigation}:any)=>{
+const editNote = ({navigation, route}:any)=>{
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
     const [image, setImage] = React.useState("");
 
     const [isPickerShow, setIsPickerShow] = React.useState(false);
     const [date, setDate] = React.useState(new Date());
+
+    useEffect(()=>{
+        //Aqui se guardan los valores de route dentro de las variables
+        setTitle(route.params.title)
+     }, [])
 
     const showPicker = () => {
         setIsPickerShow(true);
@@ -52,34 +54,28 @@ const addNote = ({navigation}:any)=>{
       };
 
     const submit = async ()=>{
-        console.log(date.toDateString())
-        const tarea:tareaDetallada={
-            titulo:title,
-            contenido:content,
-            tipo:1,
-            fechaVencimiento:`${date.getFullYear()}-${(date.getMonth() < 10 ? '0' : '').concat(date.getMonth().toString())}-${(date.getDay() < 10 ? '0' : '').concat(date.getDay().toString())}`,
-            pinear:false,
-            completada:false
-        }
-        console.log(tarea)
-        const result=await createTask(tarea) //fetch a la api
-        if(result.status==200){
-            Alert.alert("Tarea creada", "La tarea ha sido creada exitosamente");
-            navigation.navigate('Notes', {});
-        }else if(result.status==400){
-            Alert.alert("Error en los datos enviados",result.error.msg)
+        console.log('Se envia la nota:', title)
+        console.log('Content:\n',content)
+        console.log('Image:',image)
+        console.log('Date:',date)
+
+        //aqui va el fetch a la api
+
+        //Se revisa si salio bien
+        let result = true;
+        if(result){
+           alert("Success, note created");
+           navigation.navigate('Notes', {})
         }else{
-            Alert.alert("Error interno","Estamos presentado problemas actualmente, trataremos de solucionarlo rapido")
-            console.log('nota fallida:', result)
+            alert("Fail, note not created")
         }
-            
     }
 
     return (
         <ScrollView>
             <View style={styles.containerGeneral}>
                 <View style={styles.containerTitle}>
-                    <Text style={styles.title}>Create Note</Text>
+                    <Text style={styles.title}>Edit Note</Text>
                 </View>
                 <View style={styles.containerMiddle}>
                     <Text style={styles.text}>Title:</Text>
@@ -117,7 +113,7 @@ const addNote = ({navigation}:any)=>{
                         : (<>
                             <View style={styles.conteinerTop}>
                                 <TouchableOpacity onPress={pickImage} style={styles.button}>
-                                    <Text style={styles.buttonText}>Set image</Text>
+                                    <Text style={styles.buttonText}>Dar imagen</Text>
                                 </TouchableOpacity>
                             </View></>)
                         }
@@ -144,7 +140,7 @@ const addNote = ({navigation}:any)=>{
                         )}
                         <View style={styles.conteinerTop}>
                             <TouchableOpacity onPress={submit} style={styles.button}>
-                                <Text style={styles.buttonText}>Create Note</Text>
+                                <Text style={styles.buttonText}>Save Note</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -154,4 +150,4 @@ const addNote = ({navigation}:any)=>{
     )
 }
 
-export default addNote;
+export default editNote;

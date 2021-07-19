@@ -1,15 +1,21 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import {StyleSheet, View, Text, Pressable, SectionList,TextInput } from 'react-native';
+import {StyleSheet, View, Text, Pressable, SectionList,TextInput, TouchableOpacity } from 'react-native';
 import { CheckBox, FAB } from 'react-native-elements'
+import {styles as styles2}   from './styles'
 
-const noteList = ({pineadas, completadas, normales, refresh, onRefresh, checked, onPressLong, onPress, search}:any)=>{
+const noteList = ({pineadas, completadas, normales, refresh, onRefresh, checked, onPressLong, onPress, search, navigation}:any)=>{
 
   const [text, setText]= React.useState('');
 
+  const viewNote = (title:string, id:string)=>{
+    //aqui faltan mas valores, los de descripcion, fecha e imagen
+    navigation.navigate('NoteDetail', {title, id})
+  }
+
   const Item = ( {title, select, id, onRefresh}:any ) => (
     <Pressable
-    onPress={()=>{console.log(title)}}
+    onPress={()=>{viewNote(title, id)}}
     onLongPress={()=>{onPressLong(id)}}
     >
        <View style={styles.listItem}>
@@ -40,21 +46,22 @@ const noteList = ({pineadas, completadas, normales, refresh, onRefresh, checked,
           onSubmitEditing={ ()=>search(text)}
           />
         </View>
-         <SectionList 
-        style={styles.list}
-        sections={[
-          {title: 'Pineadas', data: pineadas},
-          {title: 'Normales', data: normales},
-          {title: 'Completadas', data: completadas}
-        ]}
-         renderItem={renderItem}
-         renderSectionHeader={({ section: { title , data} }) => (
-            (data.length>0)? <Text style={styles.listHeaderText} >{title}</Text> : null
-        )}
-        keyExtractor={(item, index) => index.toString()}
-        refreshing={refresh}
-        onRefresh={onRefresh}
-         />
+          <SectionList 
+          style={styles.list}
+          sections={[
+            {title: 'Pineadas', data: pineadas},
+            {title: 'Normales', data: normales},
+            {title: 'Completadas', data: completadas}
+          ]}
+          renderItem={renderItem}
+          renderSectionHeader={({ section: { title , data} }) => (
+              (data.length>0)? <Text style={styles.listHeaderText} >{title}</Text> : null
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          refreshing={refresh}
+          onRefresh={onRefresh}
+          />
+          
          {/* <View style={styles.containerB} >
             <FAB icon={<MaterialIcons name={"add-circle"} style={styles.icon} size={30}/>} size={"small"}/>
          </View> */}
@@ -87,7 +94,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: '#9575cd',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 25,
+    borderColor: "#20232a",
+    borderWidth: 4,
     alignItems:'center',
     justifyContent:'space-between',
   },
@@ -107,8 +116,10 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     margin: 12,
-    borderWidth: 1,
+    borderWidth: 2,
     backgroundColor: 'white',
+    borderRadius: 10,
+    borderColor: "#20232a",
   },
   containerB:{
     flexDirection:"row",

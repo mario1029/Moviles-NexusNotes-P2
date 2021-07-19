@@ -59,7 +59,7 @@ export const Colors = {
       },
       containerGeneral:{
         backgroundColor: '#AD20A5',
-        flex: 1,
+        flex: 4,
       },
       containerMiddle:{
         backgroundColor: '#AD20A5',
@@ -75,6 +75,11 @@ export const Colors = {
         backgroundColor: '#AD20A5',
         alignItems: 'center',
         justifyContent: 'center',
+      },
+      conteinerHigh:{
+        backgroundColor: '#AD20A5',
+        alignItems: 'center',
+        marginBottom: 30
       },
       content:{
         height: 240,

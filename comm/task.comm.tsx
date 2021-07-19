@@ -7,7 +7,7 @@ export const getListTask= async()=>{
     });
     const data= await response.json();
     const tareas:tarea[]=data.tareas;
-    console.log(data);
+    
     return tareas;
 }
 
