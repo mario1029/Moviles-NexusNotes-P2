@@ -59,10 +59,8 @@ const home = ()=>{
     return (
         <Layout component={
             <NoteList  pineadas={pineadas} completadas={completadas} normales={nomales}  refresh={refresh} onRefresh={onRefresh} />
-        }>
-             
+        }>            
         </Layout>
-        
     )
 }
 

@@ -18,7 +18,7 @@ const HomeStack = ({navigation}:any)=>{
         <Stack.Navigator initialRouteName="home">
           <Stack.Screen name="home" component={viewNotes}  
             options={{
-                headerTitle: () => <Header title='NexusNotes' navigation={navigation} />
+                headerTitle: () => <Header title='Nexus-Notes' navigation={navigation} />
           }}/>
           <Stack.Screen name="addnote" component={addNote}
            />
