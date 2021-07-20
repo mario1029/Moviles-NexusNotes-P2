@@ -1,17 +1,16 @@
 import { Router } from 'express';
-import { isAuth } from '@validations/auth';
 import {addTags, deleteTags, deleteTask, getTask, getTaskDetails, insertTask, searchTask, setCompletada, setPinear, updateTask} from '@helpers/task';
 import { tarea } from '@interfaces/tarea';
 import { taskValidation, checkResult } from '@validations/fields';
 
 const router = Router();
 
-router.post('/news/:correo', taskValidation, checkResult, async(req, res)=>{
+router.post('/news/', taskValidation, checkResult, async(req, res)=>{
     try {
-        console.log(req.body,req.params.correo)
+        console.log(req.body,req.user.correo)
         const tarea= await insertTask({
             tarea:req.body,
-            correo:req.params.correo
+            correo:req.user.correo
         });
         console.log('hola');
         console.log(tarea)
@@ -21,9 +20,9 @@ router.post('/news/:correo', taskValidation, checkResult, async(req, res)=>{
     }
 })
 
-router.get('/lista/:correo', async(req, res)=>{
+router.get('/lista', async(req:any, res)=>{
     try {
-        const tareas:tarea[]=await getTask(req.params.correo);
+        const tareas:tarea[]=await getTask(req.user.correo);
         console.log(tareas)
         res.status(200).json({ status: 200, tareas: tareas, message: 'Tareas encontradas!' });
     } catch (e) {
@@ -108,9 +107,9 @@ router.put('/completar/:id', async(req, res)=>{
     }
 })
 
-router.get('/search/:titulo', async(req, res)=>{
+router.post('/search/:titulo', async(req:any, res)=>{
     try {
-        const tareas:tarea[]=await searchTask({titulo:req.params.titulo, correo:req.body.correo});
+        const tareas:tarea[]=await searchTask({titulo:req.params.titulo, correo:req.user.correo});
         console.log(tareas)
         res.status(200).json({ status: 200, tareas: tareas, message: 'Tareas encontradas!' });
     } catch (e) {

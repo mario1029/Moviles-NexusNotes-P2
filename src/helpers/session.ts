@@ -1,22 +1,21 @@
 import Pool from '@utils/pool';
 import { queries } from '@utils/queries';
 import { compare, genSaltSync, hashSync } from 'bcryptjs';
-import { UsuarioCompleto } from '@interfaces/usuario';
+import { Usuario, UsuarioCompleto } from '@interfaces/usuario';
 
 const pool = Pool.getInstance();
 
-export const signUpUser = async function (body) {
+export const signUpUser = async function (body:UsuarioCompleto) {
   const client = await pool.connect();
-  const { alias, correo, descripcion, contrasenia } = body;
+  const { nombre, correo, contrasenia } = body;
   try {
     await client.query('BEGIN');
     const salt = genSaltSync(10);
     const hashedPassword = hashSync(contrasenia, salt);
-    const response = (await client.query(queries.SIGN_UP_USER, [alias, correo, descripcion, hashedPassword])).rows[0];
+    const response = (await client.query(queries.SIGN_UP_USER, [correo,nombre, hashedPassword])).rows[0];
     const user: UsuarioCompleto = {
-      alias: response.alias,
+      nombre: response.nombre,
       correo: response.correo,
-      descripcion: response.descripcion,
       contrasenia: response.contrasenia,
     };
     await client.query('COMMIT');
@@ -45,10 +44,9 @@ export const getUserByEmail = async (correo: string): Promise<UsuarioCompleto> =
     const response = (await client.query(queries.GET_USER_BY_EMAIL, [correo])).rows;
     const users: UsuarioCompleto[] = response.map((row) => {
       return {
-        alias: row.alias,
+        nombre: row.nombre,
         correo: row.correo,
-        descripcion: row.descripcion,
-        contrasenia: row.contrasenia,
+        contrasenia: row.contrasenia
       };
     });
 

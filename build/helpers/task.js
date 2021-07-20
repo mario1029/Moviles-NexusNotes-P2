@@ -44,6 +44,7 @@ const getTask = async (correo) => {
         const response = (await client.query(queries_1.queriesTask.GET_TASK, [correo])).rows;
         const tareas = response.map((rows) => {
             return {
+                id: rows.id_tarea,
                 titulo: rows.titulo,
                 fechaVencimiento: rows.fecha_vencimiento,
                 posicion: rows.posicion,
@@ -180,6 +181,7 @@ const searchTask = async ({ titulo, correo }) => {
         const response = (await client.query(queries_1.queriesTask.GET_TASK_BY_TITTLE, [titulo, correo])).rows;
         const tareas = response.map((rows) => {
             return {
+                id: rows.id_tarea,
                 titulo: rows.titulo,
                 fechaVencimiento: rows.fecha_vencimiento,
                 posicion: rows.posicion,

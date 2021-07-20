@@ -4,16 +4,15 @@ import { Usuario } from '@interfaces/usuario';
 
 const pool = Pool.getInstance();
 
-export const updateUser = async (body, idCorreo) => {
+export const updateUser = async ({body, idCorreo}:{body:Usuario, idCorreo:string}) => {
   const client = await pool.connect();
-  const { alias, correo, descripcion } = body;
+  const { nombre, correo } = body;
   try {
     await client.query('BEGIN');
-    const response = (await client.query(queries.UPDATE_USER_BY_EMAIL, [alias, correo, descripcion, idCorreo])).rows[0];
+    const response = (await client.query(queries.UPDATE_USER_BY_EMAIL, [nombre, correo, idCorreo])).rows[0];
     const user: Usuario = {
-      alias: response.alias,
+      nombre: response.nombre,
       correo: response.correo,
-      descripcion: response.descripcion,
     };
     await client.query('COMMIT');
     return user;
@@ -26,7 +25,7 @@ export const updateUser = async (body, idCorreo) => {
   }
 };
 
-export const deleteUser = async (idCorreo) => {
+export const deleteUser = async (idCorreo:string) => {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');

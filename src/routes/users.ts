@@ -8,21 +8,24 @@ const router = Router();
 
 router.get('/:correo', async (req, res) => {
   const data = await getUserByEmail(req.params.correo);
-  res.send({ alias: data.alias, nombre: data.correo, descripcion: data.descripcion });
+  res.send({ nombre: data.nombre, correo: data.correo, contrasenia: data.contrasenia });
 });
 
-router.put('/:correo', updateUserFieldsValidation, checkResult, async (req, res) => {
-  const correo = req.params.correo;
+router.put('/', updateUserFieldsValidation, checkResult, async (req:any, res) => {
+  const correo = req.user.correo;
   try {
-    const data = await updateUser(req.body, correo);
+    const data = await updateUser({
+      body: req.body,
+      idCorreo:correo
+    });
     res.status(200).json({ status: 200, usuario: data, message: 'Usuario actualizado!' });
   } catch (e) {
     res.status(500).json({ status: 500, error: e, message: 'Error al actualizar un usuario' });
   }
 });
 
-router.delete('/:correo', async (req, res) => {
-  const correo = req.params.correo;
+router.delete('/', async (req:any, res) => {
+  const correo = req.user.correo;
   try {
     const data = await deleteUser(correo);
     res.status(200).json({ status: 200, message: 'Usuario eliminado!' });

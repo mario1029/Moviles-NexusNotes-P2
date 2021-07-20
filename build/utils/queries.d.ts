@@ -1,11 +1,8 @@
 export declare const queries: {
     GET_USERS: string;
-    GET_USER_BY_ALIAS: string;
     GET_USER_BY_EMAIL: string;
     SIGN_UP_USER: string;
-    UPDATE_USER_BY_ALIAS: string;
     UPDATE_USER_BY_EMAIL: string;
-    DELETE_USER_BY_ALIAS: string;
     DELETE_USER_BY_EMAIL: string;
 };
 export declare const queriesTask: {
@@ -30,5 +27,10 @@ export declare const queriesStatistics: {
     GET_CANT_TASK_COMPLETE: string;
     GET_CANT_TASK_BY_TYPE_COMPLETE: string;
     GET_CANT_TASK: string;
+};
+export declare const querysImges: {
+    GET_IMAGE_TASK: string;
+    INSERT_IMAGE_TASK: string;
+    DELETE_IMAGE_TASK: string;
 };
 //# sourceMappingURL=queries.d.ts.map

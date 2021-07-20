@@ -4,12 +4,12 @@ const express_1 = require("express");
 const task_1 = require("@helpers/task");
 const fields_1 = require("@validations/fields");
 const router = express_1.Router();
-router.post('/news/:correo', fields_1.taskValidation, fields_1.checkResult, async (req, res) => {
+router.post('/news/', fields_1.taskValidation, fields_1.checkResult, async (req, res) => {
     try {
-        console.log(req.body, req.params.correo);
+        console.log(req.body, req.user.correo);
         const tarea = await task_1.insertTask({
             tarea: req.body,
-            correo: req.params.correo
+            correo: req.user.correo
         });
         console.log('hola');
         console.log(tarea);
@@ -19,9 +19,9 @@ router.post('/news/:correo', fields_1.taskValidation, fields_1.checkResult, asyn
         res.status(500).json({ status: 500, error: e, message: 'Error al crear la tarea' });
     }
 });
-router.get('/lista/:correo', async (req, res) => {
+router.get('/lista', async (req, res) => {
     try {
-        const tareas = await task_1.getTask(req.params.correo);
+        const tareas = await task_1.getTask(req.user.correo);
         console.log(tareas);
         res.status(200).json({ status: 200, tareas: tareas, message: 'Tareas encontradas!' });
     }
@@ -105,9 +105,9 @@ router.put('/completar/:id', async (req, res) => {
         res.status(500).json({ status: 500, error: e, message: 'Error al actualizar la tarea' });
     }
 });
-router.get('/search/:titulo', async (req, res) => {
+router.post('/search/:titulo', async (req, res) => {
     try {
-        const tareas = await task_1.searchTask({ titulo: req.params.titulo, correo: req.body.correo });
+        const tareas = await task_1.searchTask({ titulo: req.params.titulo, correo: req.user.correo });
         console.log(tareas);
         res.status(200).json({ status: 200, tareas: tareas, message: 'Tareas encontradas!' });
     }

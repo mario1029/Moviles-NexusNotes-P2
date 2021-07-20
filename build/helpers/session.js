@@ -10,16 +10,15 @@ const bcryptjs_1 = require("bcryptjs");
 const pool = pool_1.default.getInstance();
 const signUpUser = async function (body) {
     const client = await pool.connect();
-    const { alias, correo, descripcion, contrasenia } = body;
+    const { nombre, correo, contrasenia } = body;
     try {
         await client.query('BEGIN');
         const salt = bcryptjs_1.genSaltSync(10);
         const hashedPassword = bcryptjs_1.hashSync(contrasenia, salt);
-        const response = (await client.query(queries_1.queries.SIGN_UP_USER, [alias, correo, descripcion, hashedPassword])).rows[0];
+        const response = (await client.query(queries_1.queries.SIGN_UP_USER, [correo, nombre, hashedPassword])).rows[0];
         const user = {
-            alias: response.alias,
+            nombre: response.nombre,
             correo: response.correo,
-            descripcion: response.descripcion,
             contrasenia: response.contrasenia,
         };
         await client.query('COMMIT');
@@ -50,10 +49,9 @@ const getUserByEmail = async (correo) => {
         const response = (await client.query(queries_1.queries.GET_USER_BY_EMAIL, [correo])).rows;
         const users = response.map((row) => {
             return {
-                alias: row.alias,
+                nombre: row.nombre,
                 correo: row.correo,
-                descripcion: row.descripcion,
-                contrasenia: row.contrasenia,
+                contrasenia: row.contrasenia
             };
         });
         return users[0];

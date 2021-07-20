@@ -1,4 +1,5 @@
 export interface tarea{
+    id?:number,
     titulo:string,
     fechaVencimiento?: string,
     posicion:number,
@@ -7,13 +8,10 @@ export interface tarea{
 }
 
 export interface tareaDetallada extends tarea{
-    titulo:string,
     contenido: string,
-    fechaVencimiento?: string,
     horaVencimiento?: string,
     fechaNotificacion?:string,
     horaNotificacion?:string,
-    posicion:number,
     tipo:number,
     tags?:string[]
 }

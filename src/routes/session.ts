@@ -10,13 +10,13 @@ router.get('/', (req, res) => {
   res.send('Aqui estan las cosas de login');
 });
 
-router.get('/logout', (req: any, res) => {
+router.get('/logout', isAuth,(req: any, res) => {
   req.logout();
   req.session.alias=null;
   res.json({ status: 200, message: 'Sesión finalizada.' });
 });
 
-router.post('/signup', signUpFieldsValidation, checkResult, async (req, res) => {
+router.post('/signup',isLogged, signUpFieldsValidation, checkResult, async (req, res) => {
   try {
     const data = await signUpUser(req.body);
     res.status(200).json({ status: 200, usuario: data, message: 'Usuario registrado satisfactoriamente' });

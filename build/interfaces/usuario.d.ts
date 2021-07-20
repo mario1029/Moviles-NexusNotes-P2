@@ -1,7 +1,6 @@
 export interface Usuario {
-    alias: string;
+    nombre: string;
     correo: string;
-    descripcion: string;
 }
 export interface UsuarioCompleto extends Usuario {
     contrasenia?: string;

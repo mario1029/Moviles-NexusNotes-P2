@@ -7,16 +7,15 @@ exports.deleteUser = exports.updateUser = void 0;
 const pool_1 = __importDefault(require("@utils/pool"));
 const queries_1 = require("@utils/queries");
 const pool = pool_1.default.getInstance();
-const updateUser = async (body, idCorreo) => {
+const updateUser = async ({ body, idCorreo }) => {
     const client = await pool.connect();
-    const { alias, correo, descripcion } = body;
+    const { nombre, correo } = body;
     try {
         await client.query('BEGIN');
-        const response = (await client.query(queries_1.queries.UPDATE_USER_BY_EMAIL, [alias, correo, descripcion, idCorreo])).rows[0];
+        const response = (await client.query(queries_1.queries.UPDATE_USER_BY_EMAIL, [nombre, correo, idCorreo])).rows[0];
         const user = {
-            alias: response.alias,
+            nombre: response.nombre,
             correo: response.correo,
-            descripcion: response.descripcion,
         };
         await client.query('COMMIT');
         return user;
