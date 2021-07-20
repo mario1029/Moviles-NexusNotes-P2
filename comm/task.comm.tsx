@@ -1,7 +1,8 @@
+import { createIconSetFromFontello } from "@expo/vector-icons";
 import { tarea, tareaDetallada } from "../interfaces/tarea";
 
 export const getListTask= async()=>{
-    const response= await fetch('https://registroweb2.herokuapp.com/task/lista/jose',
+    const response= await fetch('https://registroweb2.herokuapp.com/task/lista',
     {
         method: 'GET'
     });
@@ -50,8 +51,7 @@ export const searchtTask= async(titulo:string)=>{
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ correo: 'jose'})
+        }
     });
     const data= await response.json();
     const tareas:tarea[]=data.tareas;
@@ -61,7 +61,34 @@ export const searchtTask= async(titulo:string)=>{
 
 export const createTask= async(tarea:tareaDetallada)=>{
     console.log("algoooooooooooooooooooooo")
-    const response= await fetch(`https://registroweb2.herokuapp.com/task/news/jose`,
+    const response= await fetch(`https://registroweb2.herokuapp.com/task/news/`,
+    {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tarea)
+    });
+    const data= await response.json();
+    const tareas:tareaDetallada=data.tarea;
+    console.log(tareas);
+    return data;
+}
+
+export const detailTask=async(id:number)=>{
+    const response= await fetch(`https://registroweb2.herokuapp.com/task/${id}`,
+    {
+        method: 'GET'
+    });
+    const data= await response.json();
+    const tareas:tareaDetallada=data.tarea;
+    console.log(tareas);
+    return tareas;
+}
+
+export const editTask= async({tarea, id}:{tarea:tareaDetallada, id:number})=>{
+    console.log(tarea, id)
+    const response= await fetch(`https://registroweb2.herokuapp.com/task/${id}`,
     {
         method: 'POST',
         headers: {

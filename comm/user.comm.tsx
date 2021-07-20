@@ -1,4 +1,5 @@
 import {Usuario,UsuarioCompleto} from '../interfaces/usuario'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const login=async(usuario:UsuarioCompleto)=>{
     console.log(usuario)
@@ -21,6 +22,7 @@ export const logout= async()=>{
     });
     const data= await response.json();
     console.log(data);
+    await AsyncStorage.removeItem('login')
     return data;
 }
 

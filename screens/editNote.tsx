@@ -3,8 +3,10 @@ import {View, Text, TextInput, TouchableOpacity, Image, ScrollView, Button, Plat
 import {Colors, styles} from '../components/styles';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { editTask } from '../comm/task.comm';
 
 const editNote = ({navigation, route}:any)=>{
+    const [detail, setDetail] = React.useState({titulo:'',fechaVencimiento:'', pinear:false, completada:false, contenido:'', tipo:0}); 
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
     const [image, setImage] = React.useState("");
@@ -14,8 +16,13 @@ const editNote = ({navigation, route}:any)=>{
 
     useEffect(()=>{
         //Aqui se guardan los valores de route dentro de las variables
-        setTitle(route.params.title)
-     }, [])
+        setDetail(route.params.detail)
+        console.log("vista editar",route.params.detail)
+        console.log(detail)
+        setTitle(detail.titulo)
+        setContent(detail.contenido)
+        setDate(new Date(detail.fechaVencimiento))
+    }, [])
 
     const showPicker = () => {
         setIsPickerShow(true);
@@ -60,10 +67,18 @@ const editNote = ({navigation, route}:any)=>{
         console.log('Date:',date)
 
         //aqui va el fetch a la api
-
-        //Se revisa si salio bien
-        let result = true;
-        if(result){
+        const tarea=await editTask({
+            tarea:{
+                titulo:title,
+            contenido:content,
+            fechaVencimiento:`${date.getFullYear()}-${(date.getMonth() < 10 ? '0' : '').concat(date.getMonth().toString())}-${(date.getDay() < 10 ? '0' : '').concat(date.getDay().toString())}`,
+            pinear:detail.pinear,
+            completada:detail.completada,
+            tipo:detail.tipo,
+            },
+            id:route.params.id
+        })
+        if(tarea.status==200){
            alert("Success, note created");
            navigation.navigate('Notes', {})
         }else{

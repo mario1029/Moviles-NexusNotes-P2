@@ -18,7 +18,6 @@ const home = ({navigation}:any)=>{
   const [refresh, setRefresh]= React.useState(false);
  // const [loading, setLoading]= React.useState(true);
 
-  const [data, dataSet] = React.useState<any>(null)
 
   const addNote = ()=>{
     //Se redirecciona a addNote
@@ -76,7 +75,9 @@ const home = ({navigation}:any)=>{
         const getData = async () => {
           try {
             const jsonValue = await AsyncStorage.getItem('login')
-            dataSet(jsonValue != null ? JSON.parse(jsonValue) : null);
+            if(jsonValue==null){
+              navigation.navigate('Login')
+            }
           } catch(e) {
             // error reading value
           }
@@ -84,15 +85,7 @@ const home = ({navigation}:any)=>{
         getData();        
     }, [])
     
-    console.log("data:!!!!!!!",data.correo);
-    if(!(data!== null )){
-      Alert.alert("No se loggeado");
-      navigation.navigate('Login')
-    }
-    // if(loading){
-    //   return <Text>Cargando...</Text>
-    // }
-
+  
     const checked= async(id:number)=>{
       const tarea: tarea= await completeTask(id);
       onRefresh();

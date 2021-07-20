@@ -1,6 +1,6 @@
 export interface estadisticas{
     cantidadTotal:number,
-    cantidadTotalCompletada?:number,
+    cantidadTotalCompletada:number,
     cantidadTotalCompletadaFiltrada?:number
 }
 
